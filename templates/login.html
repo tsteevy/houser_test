@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form>
+    <div class="form-group">
+        <label for="inputUser">Username</label>
+        <input type="text" class="form-control" id="inputUser" placeholder="Name">
+    </div>
+
+    <div class="form-group">
+        <label for="inputPassword">Password</label>
+        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+    </div>
+
+    <div class="form-group">
+        <label for="inputEmail">Email address</label>
+        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+        <small id="emailHelp" class="form-text text-muted">Please insert a valid email address.</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% end %}
+
+{% block javascript %}
+<script>
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
+    $('#inputEmail').keyup(function() {
+        if (!validateEmail($("#inputEmail").val())){
+            $('#emailHelp').text("Please insert a valid email address.");
+        }
+        else {
+            $('#emailHelp').text("All good.");
+        }
+    });
+</script>
+{% end %}

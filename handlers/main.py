@@ -1,5 +1,4 @@
 from handlers.base import BaseHandler
-import json
 import logging
 
 logger = logging.getLogger()

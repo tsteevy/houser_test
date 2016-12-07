@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <svg width="960" height="500"></svg>
+{% end %}
+
+{% block javascript %}
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+    <script src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+
+    <script>
+        function customTimeFormat(d){
+            return moment(d).fromNow();
+        }
+
+        var events_arr = [
+            {
+                eventprice:550000,
+                moddate:"2016-11-11T17:14:17"
+            },
+            {
+                eventprice:520000,
+                moddate:"2016-11-24T15:52:34"
+            },
+            {
+                eventprice:650000,
+                moddate:"2016-11-29T11:21:05.923581"
+            }
+        ];
+
+        var svg = d3.select("svg"),
+        margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = + svg.attr("width") - margin.left - margin.right,
+        height = + svg.attr("height") - margin.top - margin.bottom;
+
+        // set the ranges
+        var x = d3.scaleTime()
+                  .range([0, width]);
+        var y = d3.scaleLinear()
+                  .range([height, 0]);
+
+        x.domain([d3.min(events_arr, function(d) { return Date.parse(d.moddate); }) - 86400000,
+            d3.max(events_arr, function(d) { return Date.parse(d.moddate); }) + 86400000]);
+
+        xAxis = d3.axisBottom(x).tickFormat(customTimeFormat);
+
+        y.domain([0, d3.max(events_arr, function(d) { return d.eventprice; }) + 50000]);
+
+        svg.append("rect")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("fill", "grey");
+
+        // add the x Axis
+        svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
+
+        // add the y Axis
+        svg.append("g")
+          .call(d3.axisLeft(y));
+
+        svg.selectAll(".bar")
+          .data(events_arr)
+        .enter().append("rect")
+            .attr("class", "bar")
+            .attr("fill", "purple")
+            .attr("x", function(d) { return x(Date.parse(d.moddate)); })
+            .attr("width", 10)
+            .attr("y", function(d) { return y(d.eventprice); })
+            .attr("height", function(d) { return height - y(d.eventprice); });
+
+        svg.selectAll(".bartext")
+            .data(events_arr)
+            .enter()
+            .append("text")
+            .attr("class", "bartext")
+            .attr("text-anchor", "middle")
+            .attr("fill", "white")
+            .attr("x", function(d,i) {
+                return x(Date.parse(d.moddate)) + 5;
+            })
+            .attr("y", function(d,i) {
+                return height-y(d.eventprice)+15;
+            })
+            .text(function(d){
+                 return d.eventprice;
+            });
+    </script>
+{% end %}

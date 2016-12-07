@@ -1,5 +1,4 @@
 from handlers.base import BaseHandler
-import json
 import logging
 
 logger = logging.getLogger()
@@ -15,3 +14,6 @@ class MainHandler(BaseHandler):
         email = self.get_argument("inputEmail")
         # todo: log data
         # todo: show d3 bars
+
+        self.render("home.html")
+

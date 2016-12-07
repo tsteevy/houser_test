@@ -45,7 +45,7 @@ settings['cookie_secret'] = "your-cookie-secret"
 settings['xsrf_cookies'] = True
 settings['template_loader'] = tornado.template.Loader(TEMPLATE_ROOT)
 
-SYSLOG_TAG = "boilerplate"
+SYSLOG_TAG = "houser_test"
 SYSLOG_FACILITY = logging.handlers.SysLogHandler.LOG_LOCAL2
 
 # See PEP 391 and logconfig for formatting help.  Each section of LOGGERS
@@ -55,7 +55,7 @@ SYSLOG_FACILITY = logging.handlers.SysLogHandler.LOG_LOCAL2
 # unless propagate: True is set.
 LOGGERS = {
    'loggers': {
-        'boilerplate': {},
+        'standard': {},
     },
 }
 
